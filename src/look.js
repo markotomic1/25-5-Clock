@@ -32,7 +32,7 @@ class Look extends React.Component {
           </div>
         </div>
         <div className="timer">
-          <div id="timer-label">Session</div>
+          <div id="timer-label">{this.props.text}</div>
           <div id="time-left">{this.props.time()}</div>
         </div>
         <div className="buttons">

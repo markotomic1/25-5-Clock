@@ -18,6 +18,8 @@ class Brain extends React.Component {
       break: 5,
       session: 25,
       mode: true,
+      text: "Session",
+      mode2: true,
     };
   }
   handleReset() {
@@ -25,6 +27,9 @@ class Brain extends React.Component {
       timer: 1500,
       break: 5,
       session: 25,
+      mode: true,
+      mode2: true,
+      text: "Session",
     });
     clearInterval(this.time1);
     let sound = document.getElementById("beep");
@@ -79,14 +84,27 @@ class Brain extends React.Component {
 
   handlePlay() {
     this.time1 = setInterval(() => {
-      if (this.state.timer < 2) {
-        var sound = document.getElementById("beep");
-        clearInterval(this.time1);
-        sound.play();
-      }
       this.setState({
         timer: this.state.timer - 1,
       });
+
+      if (this.state.timer === 0) {
+        var sound = document.getElementById("beep");
+
+        sound.play();
+
+        this.state.mode2 === true
+          ? this.setState({
+              text: "Break",
+              timer: this.state.break * 60,
+              mode2: !this.state.mode2,
+            })
+          : this.setState({
+              text: "Session",
+              timer: this.state.session * 60,
+              mode2: !this.state.mode2,
+            });
+      }
     }, 1000);
 
     this.setState({
@@ -116,6 +134,7 @@ class Brain extends React.Component {
           play={this.handlePlay}
           mode={this.state.mode}
           stop={this.handleStop}
+          text={this.state.text}
         />
         <audio
           src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
